@@ -1,6 +1,6 @@
 ---
 title: "Hotel bookings - factors"
-author: "YOU"
+author: "Rebecca Smith"
 date: "`r Sys.Date()`"
 output: 
   html_document: 
@@ -11,6 +11,7 @@ output:
 ```{r load-pkg, message = FALSE}
 library(tidyverse)
 library(skimr)
+library(scales)
 ```
 
 ```{r load-data, message = FALSE}
@@ -20,10 +21,13 @@ hotels <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesda
 
 First, knit the document and view the following visualisation. How are the months ordered? What would be a better order? Then, reorder the months on the x-axis (levels of `arrival_date_month`) in a way that makes more sense. You will want to use a function from the **forcats** package, see https://forcats.tidyverse.org/reference/index.html for inspiration and help.
 
+The months are ordered alphabetically. We want to reorder the months correctly.
+
 **Stretch goal:** If you finish the above task before time is up, change the y-axis label so the values are shown with dollar signs, e.g. $80 instead of 80. You will want to use a function from the **scales** package, see https://scales.r-lib.org/reference/index.html for inspiration and help.
 
 ```{r plot, fig.width=10}
 hotels %>%
+  mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name))%>%
   group_by(hotel, arrival_date_month) %>%   # group by hotel type and arrival month
   summarise(mean_adr = mean(adr)) %>%       # calculate mean adr for each group
   ggplot(aes(
@@ -38,7 +42,8 @@ hotels %>%
        y = "Mean ADR (average daily rate)",
        title = "Comparison of resort and city hotel prices across months",
        subtitle = "Resort hotel prices soar in the summer while ciry hotel prices remain relatively constant throughout the year",
-       color = "Hotel type")
+       color = "Hotel type") +
+  scale_y_continuous(labels = label_dollar())
 ```
 ## References {#references}
 1. Assignment Adapted from [Mine Cetinkaya-Rundel's Data Science in a Box](https://github.com/rstudio-education/datascience-box)
