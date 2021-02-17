@@ -1,6 +1,6 @@
 ---
 title: "Type coercion"
-author: "YOU"
+author: "Rebecca Smith"
 date: "`r Sys.Date()`"
 output: 
   html_document: 
@@ -14,9 +14,9 @@ c(1, 1L, "C")
 ```
 
 ```{r}
-1
-1L
-"C"
+typeof(1)
+typeof(1L)
+typeof("C")
 ```
 
 ```{r}
